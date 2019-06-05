@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/re")
-public class registerControl extends HttpServlet {
+public class registerCheck extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.doPost(req, resp);
@@ -20,15 +20,13 @@ public class registerControl extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = new User();
-        user.setUsername(req.getParameter("user"));
-        user.setPassword(req.getParameter("password1"));
+        resp.setContentType("text/html;charset=UTF-8");
+        String registerName =req.getParameter("registerName");
         checkRegister c = new checkRegister();
-        if(true){
-            //进行注册
+        if(c.checkR(registerName)){
+            resp.getWriter().print("<font color='green' id='f'>恭喜,该用户名可用</font>");
         }else{
-            //返回用户名相同
-            req.getRequestDispatcher("register.jsp").forward(req,resp);
+            resp.getWriter().print("<font color='red' id='f'>抱歉，该用户名已被注册，请重新设置</font>");
         }
     }
 }

@@ -11,6 +11,10 @@
     <title>Success</title>
 </head>
 <body>
-
+<table width="100%">
+    <tr><font size="500px" color="#adff2f">
+        O 登录成功,请稍等!!
+    </font></tr>
+</table>
 </body>
 </html>

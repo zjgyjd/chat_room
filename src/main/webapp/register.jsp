@@ -43,6 +43,8 @@
             text-align: right;
         }
     </style>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
     <script>
         function getPassWord() {
             var password1 = document.getElementById("password1").value;
@@ -89,11 +91,37 @@
                 form.password2.focus();
                 return false;
             }
+            var span = document.getElementById("f").innerHTML;
+
+            if(span != "恭喜,该用户名可用"){
+                alert("请重新输入用户名");
+                form.user.focus();
+                return false;
+            }
             return true;
         }
         function checkU() {
             var username = document.getElementById("user");
-            <%=new checkRegister().checkR(username.value)%>
+            var registerName = $(username).val();
+            registerName = $.trim(registerName);//去掉收尾空格
+            if(registerName != ""){
+                var url = "/re?";
+                registerName = "registerName=" + registerName;
+                url = url + registerName;
+                //$.get()方法能够返回一个JQuery XMLHttpRequest对象
+                var jqxhr = $.get(url, callback);
+                //若执行JQuery出现错误则提示错误信息
+                //在JQuery3.0以后需要用done()、fail()、alwayls()代替success()、error()、complete();
+                jqxhr.fail(function(xhr, error, throwerror) {
+                    alert("error" + xhr.status + " error=" + error
+                        + " throwerror:" + throwerror);
+                });
+            }
+        }
+        //ajax的回调函数
+        function callback(data, status) {
+            $("#er").show();
+            $("#er").html(data);
         }
     </script>
 </head>
@@ -103,10 +131,11 @@
     <div class="font" align="center">
         <font style="color: #ffffff;font-size:calc(50px);">注册</font>
     </div>
-    <form action="/re" style="text-align:left;" onsubmit="return check(this)"><br/><br/><br/>
+    <form action="/reg" style="text-align:left;" onsubmit="return check(this)"><br/><br/><br/>
         <div class="blank"><font size="5">用户名:</font></div>
         <input type="text" name="user" id='user' placeholder="请注册用户名" class="block" onblur="checkU()"/><br/>
-        <span></span><!-- 需要说出用户名是否重复  -->
+        <div class="blank"></div>&nbsp;&nbsp;&nbsp;
+        <span id = 'er'></span><!-- 需要说出用户名是否重复  -->
         <br/><br/>
         <div class="blank"><font size="5">密码:</font></div>
         <input type="password" name="password1" id='password1' placeholder="请注册的密码" class="block"/><br/>
@@ -126,7 +155,7 @@
         -->
         <br/><br/><br/><br/>
         <div style="width: 100%;text-align: center;">
-            <input type="submit" value="登 录" name="load"
+            <input type="submit" value="注 册" name="load"
                    style="background-color: white; border-radius: calc(10px);
 						height: 60px;	width:100px;display:inline-block; font-size: calc(20px); color:dodgerblue; outline: none;"/>
         </div>

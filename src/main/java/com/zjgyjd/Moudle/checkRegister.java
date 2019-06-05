@@ -24,4 +24,14 @@ public class checkRegister {
         }
         return true;
     }
+    public boolean insert(User user){
+        DbBiz db = new DbBiz();
+        try {
+            db.insert(user);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

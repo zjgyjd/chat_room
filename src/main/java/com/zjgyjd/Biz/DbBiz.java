@@ -15,4 +15,7 @@ public class DbBiz {
         rs = Db.queryFunction("select * from users;");
         return rs;
     }
+    public boolean insert(User user) throws  SQLException{
+       return Db.insertFunction("insert into users(name,password)values(\""+user.getUsername()+"\",\""+user.getPassword()+"\""+");");
+    }
 }

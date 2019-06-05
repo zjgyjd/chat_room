@@ -33,6 +33,16 @@ public class DB {
         return rs;
     }
 
+    public boolean insertFunction(String strInster){
+        conn = this.getConn();
+        try {
+            state = conn.createStatement();
+            return state.execute(strInster);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public void closeDb() {
         try {
             if (state != null) state.close();
