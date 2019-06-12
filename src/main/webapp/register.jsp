@@ -10,6 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
+
     <style>
         .center {
             width: 500px;
@@ -164,4 +165,3 @@
 </div>
 </body>
 </html>
-

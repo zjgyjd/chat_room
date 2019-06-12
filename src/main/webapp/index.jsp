@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+
     <meta charset="UTF-8">
+
     <title>欢迎登陆聊天室!!!</title>
     <style type="text/css">
         .ok {

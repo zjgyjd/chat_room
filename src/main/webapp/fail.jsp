@@ -10,6 +10,7 @@
 <head>
     <title>fail</title>
     <meta http-equiv="refresh" content="1; url=/index.jsp"/>
+
 </head>
 <body>
     <table width="100%">
