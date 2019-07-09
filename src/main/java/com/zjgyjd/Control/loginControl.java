@@ -19,14 +19,17 @@ public class loginControl extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         User user = new User();
         user.setUsername(req.getParameter("username"));
+        System.out.println(req.getParameter("username"));
         user.setPassword(req.getParameter("password"));
+        System.out.println(req.getParameter("password"));
         checkLogin c = new checkLogin();
         c.user = user;
-        if(c.checkL()){
+        if (c.checkL()) {
             req.getRequestDispatcher("success.jsp").forward(req, resp);
-        }else{
+        } else {
             req.getRequestDispatcher("fail.jsp").forward(req, resp);
         }
     }
