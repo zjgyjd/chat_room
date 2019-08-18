@@ -8,8 +8,11 @@
             background: #808080;
 
             border-radius: calc(20px);
-
+            top: 50%;
+            left: 50%;
             position: absolute;
+            margin-top: -300px;
+            margin-left: -250px;
             width: 500px;
             height: 300px;
         }
@@ -20,16 +23,16 @@
     </style>
 </head>
 <link href="css/01.css" type="text/css" rel="stylesheet">
-<body background="img/login.jpg">
+<body bgcolor="#020001">
 <br/>
 <br/><br/><br/><br/><br/><br/>
 
-<div class="ok">
+<div class="ok" >
     <h1 align="center"><font color="white">Chat-Room</font></h1>
     <br/> <br/>
 
     <div align="center" class="u">
-        <form action="/lo" method="post" accept-charset="UTF-8">
+        <form action="/chat_room/lo" method="post" accept-charset="UTF-8">
 
             <div align="absmiddle">
                 <font size="5">用户名: </font>

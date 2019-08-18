@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>注册失败</title>
-    <meta http-equiv="refresh" content="1; url=/register.jsp"/>
+    <meta http-equiv="refresh" content="1; url=chat_room/register.jsp"/>
 
 </head>
 <body>

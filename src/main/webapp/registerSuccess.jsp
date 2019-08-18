@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>注册成功</title>
-    <meta http-equiv="refresh" content="1; url=/index.jsp"/>
+    <meta http-equiv="refresh" content="1; url=chat_room/index.jsp"/>
 
 </head>
 <body>

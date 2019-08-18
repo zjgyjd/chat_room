@@ -23,9 +23,9 @@ public class registerControl extends HttpServlet {
         user.setUsername(req.getParameter("user"));
         user.setPassword(req.getParameter("password1"));
         if(new checkRegister().insert(user)){
-            req.getRequestDispatcher("registerSuccess.jsp").forward(req,resp);
+            req.getRequestDispatcher("chat_room/registerSuccess.jsp").forward(req,resp);
         }else {
-            req.getRequestDispatcher("registerFail.jsp").forward(req,resp);
+            req.getRequestDispatcher("chat_room/registerFail.jsp").forward(req,resp);
         }
     }
 }

@@ -9,11 +9,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
+
     <title>注册</title>
 
-    <style>
+    <style type="text/css">
+
         .center {
-            width: 500px;
+            width: 550px;
             height: 600px;
             background: #808080;
             top: 50%;
@@ -106,7 +108,7 @@
             var registerName = $(username).val();
             registerName = $.trim(registerName);//去掉收尾空格
             if(registerName != ""){
-                var url = "/re?";
+                var url = "/chat_room/re?";
                 registerName = "registerName=" + registerName;
                 url = url + registerName;
                 //$.get()方法能够返回一个JQuery XMLHttpRequest对象
@@ -127,12 +129,12 @@
     </script>
 </head>
 <link href="css/01.css" type="text/css" rel="stylesheet">
-<body background="img/register.png">
+<body>
 <div class="center">
     <div class="font" align="center">
         <font style="color: #ffffff;font-size:calc(50px);">注册</font>
     </div>
-    <form action="/reg" style="text-align:left;" onsubmit="return check(this)" accept-charset="UTF-8"><br/><br/><br/>
+    <form action="/chat_room/reg" style="text-align:left;" onsubmit="return check(this)" accept-charset="UTF-8"><br/><br/><br/>
         <div class="blank"><font size="5">用户名:</font></div>
         <input type="text" name="user" id='user' placeholder="请注册用户名" class="block" onblur="checkU()"/><br/>
         <div class="blank"></div>&nbsp;&nbsp;&nbsp;

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Success</title>
-
+    <meta http-equiv="refresh" content="1; url=/chat_room.html"/>
 </head>
 <body>
 <table width="100%">
