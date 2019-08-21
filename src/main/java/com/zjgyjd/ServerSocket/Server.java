@@ -17,6 +17,10 @@ public class Server {
     private static final Set<String> connectionName =
             new CopyOnWriteArraySet<>();
 
+    public static Set<String> getConnectionName() {
+        return connectionName;
+    }
+
     private String nickname;
     private Session session;
     private HttpSession httpSession;
@@ -38,7 +42,8 @@ public class Server {
         this.nickname = (String) httpSession.getAttribute("name");//需要前面传值
         connections.add(this);
         connectionName.add(nickname);
-        String message = String.format("* %s %s *", nickname, "has joined."); // 此时某个用户加入了会话大厅
+        String message = String.format("* %s %s *", nickname, "has joined.\n"); // 此时某个用户加入了会话大厅
+        httpSession.setAttribute("nameList",connectionName);
         broadcast(message , null ,false);
     }
 
@@ -46,8 +51,9 @@ public class Server {
     @OnClose
     public void end() {
         connections.remove(this);
+        connectionName.remove(nickname);
         String message = String.format("* %s %s *",
-                nickname, "has disconnected.");
+                nickname, "has disconnected.\n");
         broadcast(message , null ,false);//这个地方也要移出
     }
 

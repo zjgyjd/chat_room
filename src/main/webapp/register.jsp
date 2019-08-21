@@ -106,7 +106,7 @@
         function checkU() {
             var username = document.getElementById("user");
             var registerName = $(username).val();
-            registerName = $.trim(registerName);//去掉收尾空格
+            registerName = $.trim(registerName);//去掉首尾空格
             if(registerName != ""){
                 var url = "/chat_room/re?";
                 registerName = "registerName=" + registerName;
