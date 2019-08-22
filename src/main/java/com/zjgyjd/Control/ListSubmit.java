@@ -21,8 +21,9 @@ public class ListSubmit extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         StringBuffer sb = new StringBuffer();
         Set<String> mapSet = Server.getConnectionName();
-        for(String s : mapSet){
-            String temp = "<div>"+s+"</div><br/>";
+        for (String s : mapSet) {
+            String temp = "<div>" + "<input type=\"checkbox\" class=\"styled\" " +
+                    "name=\"box\" value=\"" + s + "\" checked>" + s + "</div><br/>";
             sb.append(temp);
         }
         resp.getWriter().print(sb.toString());

@@ -14,10 +14,15 @@
 
     <style type="text/css">
 
+        body{
+            background: #f4f4f4;
+        }
+
         .center {
             width: 550px;
             height: 600px;
-            background: #808080;
+            background: #ffffff;
+            border: 1px solid  #999;
             top: 50%;
             left: 50%;
             position: absolute;
@@ -132,7 +137,7 @@
 <body>
 <div class="center">
     <div class="font" align="center">
-        <font style="color: #ffffff;font-size:calc(50px);">注册</font>
+        <font style="color: #999;font-size:calc(50px);">注册</font>
     </div>
     <form action="/chat_room/reg" style="text-align:left;" onsubmit="return check(this)" accept-charset="UTF-8"><br/><br/><br/>
         <div class="blank"><font size="5">用户名:</font></div>
@@ -159,8 +164,8 @@
         <br/><br/><br/><br/>
         <div style="width: 100%;text-align: center;">
             <input type="submit" value="注 册" name="load"
-                   style="background-color: white; border-radius: calc(10px);
-						height: 60px;	width:100px;display:inline-block; font-size: calc(20px); color:dodgerblue; outline: none;"/>
+                   style="background-color: #0dbfdd; border-radius: calc(10px);
+						height: 60px;	width:100px;display:inline-block; font-size: calc(20px); color:#fff; outline: none;"/>
         </div>
 
     </form>

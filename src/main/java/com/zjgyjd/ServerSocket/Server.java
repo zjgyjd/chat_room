@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@ServerEndpoint(value ="/websocket/chat",configurator = HttpConfig.class)
+@ServerEndpoint(value = "/websocket/chat", configurator = HttpConfig.class)
 public class Server {
     private static final String GUEST_PREFIX = "Guest"; //客人的前缀,这个地方要改,前端传过来
     private static final AtomicInteger connectionIds = new AtomicInteger(0); //连接的id
@@ -36,15 +36,15 @@ public class Server {
 
 
     @OnOpen
-    public void start(Session session ,EndpointConfig endpointConfig) {
+    public void start(Session session, EndpointConfig endpointConfig) {
         this.session = session;
-        this.httpSession = (HttpSession)endpointConfig.getUserProperties().get(HttpSession.class.getName());
+        this.httpSession = (HttpSession) endpointConfig.getUserProperties().get(HttpSession.class.getName());
         this.nickname = (String) httpSession.getAttribute("name");//需要前面传值
         connections.add(this);
         connectionName.add(nickname);
-        String message = String.format("* %s %s *", nickname, "has joined.\n"); // 此时某个用户加入了会话大厅
-        httpSession.setAttribute("nameList",connectionName);
-        broadcast(message , null ,false);
+        String message = String.format("<div class='atalk'>Robot: %s %s <div>", nickname, "加入了会话大厅\n"); // 此时某个用户加入了会话大厅
+        httpSession.setAttribute("nameList", connectionName);
+        broadcast(message, null, false);
     }
 
 
@@ -52,27 +52,53 @@ public class Server {
     public void end() {
         connections.remove(this);
         connectionName.remove(nickname);
-        String message = String.format("* %s %s *",
-                nickname, "has disconnected.\n");
-        broadcast(message , null ,false);//这个地方也要移出
+        String message = String.format("<div class='atalk'>Robot: %s %s <div>",
+                nickname, "退出了聊天大厅");
+        broadcast(message, null, false);//这个地方也要移出
     }
 
 
     @OnMessage
     public void incoming(String message) {
-        // Never trust the client   永远不相信用户
-//        String filteredMessage = String.format("%s: %s",
-//                nickname, HTMLFilter.filter(message.toString()));
-//        //进行了一个过滤,做了一个字符的转换,我们暂时不做
-//        broadcast(filteredMessage);
-        //进行一个AB转换
-        String filteredMessage = message.replace("btalk" , "atalk");
-        //需要自己不要显示自己说的话,唯一的方法就是不向自己穿输,需要将自己传进去
-        broadcast(filteredMessage , this , true);//这个地方在传输消息,表示在通话
-        httpSession.setAttribute("nameList",connectionName);//此时将值传回来了
+
+        String filteredMessage = message.replace("btalk", "atalk");
+        int index = filteredMessage.indexOf("[");
+        if (index > 0) {
+            boradcast_01(filteredMessage, this, index);
+        } else
+            //需要自己不要显示自己说的话,唯一的方法就是不向自己穿输,需要将自己传进去
+            broadcast(filteredMessage, this, true);//这个地方在传输消息,表示在通话
+        httpSession.setAttribute("nameList", connectionName);//此时将值传回来了
     }
 
+    private void boradcast_01(String filteredMessage, Server server, int index) {
+        for (Server client : connections) {
+            try {
+                synchronized (client) {
+                    String[] users = filteredMessage.substring(index + 1).split(" ");
+                    for (int i = 0; i < users.length - 1; i++) {
+                        if(client.nickname.equals(users[i])&& client != server){
+                            client.session.getBasicRemote().sendText(filteredMessage.substring(0,index));//这一步可以将服务器数据传到客户端
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                //log.debug("Chat Error: Failed to send message to client", e);
+                System.out.println("Chat Error: Failed to send message to client" + e.getMessage());
+                connectionName.remove(client.nickname);
+                connections.remove(client);//此时一个将该用户踢除,<----------就是这里
+                try {
+                    client.session.close();//发生异常应该及时关闭session
+                } catch (IOException e1) {
+                    // Ignore
+                }
+                String message = String.format("<div class='atalk'>Robot: %s %s <div>",
+                        client.nickname, "退出了聊天大厅"); //抛异常此时退出连接
+                broadcast(message, null, false);//使循环继续,将该用户退出连接的消息告诉所有人
+            }
 
+        }
+    }
 
 
     @OnError
@@ -83,11 +109,11 @@ public class Server {
     }
 
 
-    private static void broadcast(String msg , Server my , Boolean flag) {
+    private static void broadcast(String msg, Server my, Boolean flag) {
         for (Server client : connections) { //遍历所有客户端,用于上传数据
             try {
                 synchronized (client) {//对每一个用户上锁
-                    if(flag && client == my){//此时说明不需要传给自己
+                    if (flag && client == my) {//此时说明不需要传给自己
                         continue;
                     }
                     client.session.getBasicRemote().sendText(msg);//这一步可以将服务器数据传到客户端
@@ -102,9 +128,9 @@ public class Server {
                 } catch (IOException e1) {
                     // Ignore
                 }
-                String message = String.format("* %s %s *",
-                        client.nickname, "has been disconnected."); //抛异常此时退出连接
-                broadcast(message , null , false);//使循环继续,将该用户退出连接的消息告诉所有人
+                String message = String.format("<div class='atalk'>Robot: %s %s <div>",
+                        client.nickname, "退出了聊天大厅"); //抛异常此时退出连接
+                broadcast(message, null, false);//使循环继续,将该用户退出连接的消息告诉所有人
             }
         }
     }
