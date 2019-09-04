@@ -60,7 +60,6 @@ public class Server {
 
     @OnMessage
     public void incoming(String message) {
-
         String filteredMessage = message.replace("btalk", "atalk");
         int index = filteredMessage.indexOf("[");
         if (index > 0) {
